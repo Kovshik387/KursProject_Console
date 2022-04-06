@@ -1,12 +1,16 @@
-﻿#include "Header.h"
+﻿#include "Header.h"	// подключение заголовочного файла
 using namespace std;
+
+//	точки throw,
+//	меню
+//	
 
 void SetData();
 
 int main()
 {
-	bool flag = false;
-    setlocale(LC_ALL, "ru");
+	bool flag = false; int kostil = 0; /* :))))) */ Admin admin;
+    setlocale(LC_ALL, "ru");	//подключение
 	while (true) {
 		
 		cout << "0 - exit          " << endl; 
@@ -15,31 +19,52 @@ int main()
 		cout << "3 - reset         " << endl;
 		cout << "4 - print	       " << endl;
 		cout << "5 - basket        " << endl;
-		cout << "6 - Login as admin" << endl;
-		if (flag) {
-			cout << "7 - PRINT_ALL" << endl;
-			cout << "8 - ADD_NEW" << endl;
+		if (!flag) cout << "6 - Login as admin" << endl;	// Admin привелегии
+		if (flag) { 
+			cout << "11 - PRINT_ALL" << endl;
+			cout << "12 - ADD_NEW" << endl;
 		}
 		int mode; cin >> mode; Object object;
 		if (mode == 0) break;
 		if (mode == 1) {
 		    object.item(); object.Print();
 			cout << "b - buy\nr - return\n";
-			char mode_i; cin >> mode_i;
+ 			char mode_i; cin >> mode_i;
 			if (mode_i == 'b') {
 				int ask; cin >> ask;
 				object.basket(ask);
 			}
-			if (mode_i == 'r') continue;
 			//else throw exception("Error Data");
 		}
 		if (mode == 2) { Shoes shoes; shoes.Print(); int ask; cin >> ask; shoes.basket(ask); }
 		if (mode == 3) SetData();
 		if (mode == 4) { object.Print();}
 		if (mode == 5) { object.PrintBasket(); }
-		if (mode == 6) {
-			string pass; cin >> pass;
-			if (pass == Password) flag = true;
+		if (!flag) {
+			if (mode == 6) {
+				string pass; cin >> pass;
+				if (pass == admin.GetPassword()) flag = true;
+			}
+		}
+		if (mode == 11 && flag) {
+			admin.Print_Admin_Data();
+		}
+		if (mode == 12 && flag) {
+			fstream File(FILE_NAME, ios_base::app);
+			 if (kostil == 0) { File << endl; kostil= 1;}
+			string temp, new_str;
+			cout << "Добавление:";										//
+			cout << "\nCategory\t"; cin >> temp; new_str += temp + " ";	//
+			cout << "\nType    \t"; cin >> temp; new_str += temp + " ";	//
+			cout << "\nSex     \t"; cin >> temp; new_str += temp + " ";	//
+			cout << "\nBrand   \t"; cin >> temp; new_str += temp + " ";	//
+			cout << "\nModel   \t"; cin >> temp; new_str += temp + " ";	// Формирование строки пользователя
+			cout << "\nSize    \t"; cin >> temp; new_str += temp + " ";	//
+			cout << "\nPrice   \t"; cin >> temp; new_str += temp + " ";	//
+			cout << "\nColor   \t"; cin >> temp; new_str += temp + " ";	//
+			cout << "\nCount   \t"; cin >> temp; new_str += temp;		//
+			File << new_str << endl;	// Запись собранной строки пользователя в "корзину"
+			File.close();			    // Закрытие отработавшего файла
 		}
 		system("pause");
 		cout << "////////////////////////////////////////////////////////////////////////////////" << endl;
@@ -48,7 +73,7 @@ int main()
     return 0;
 }
 
-void SetData()
+void SetData()	// Функция возвращение данных в исходный вид
 {
 	ifstream File_Default(FILE_MAIN_NAME);
 	vector<string> temp_data; string temp;
