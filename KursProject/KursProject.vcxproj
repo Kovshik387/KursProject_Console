@@ -147,6 +147,7 @@
   <ItemGroup>
     <Text Include="Data.txt" />
     <Text Include="DefualtData.txt" />
+    <Text Include="Basket.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

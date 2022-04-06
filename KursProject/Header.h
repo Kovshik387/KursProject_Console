@@ -8,10 +8,12 @@
 #include <algorithm>
 #include <list>
 
+#define FILE_BASKET_NAME "Basket.txt"
 #define FILE_NAME "Data.txt"
 #define FILE_MAIN_NAME "DefualtData.txt"
 #define SEARCH_EXP_NEW R"(\w{2,6}\s\w{2,10}\s\w{3,5}\s\w{3,15}\s\w{3,15}\s\d{1,2}\s\d{2,6}\s\w{3,7}\s\d{1})"
 #define SEARCH_SHOES R"(Shoes)"
+#define Password "OOP1337"
 using namespace std;
 
 class Builder
@@ -19,7 +21,7 @@ class Builder
 public:
 
 	void virtual item() = 0;
-	void virtual basket(int id_) = 0; // корзина ебанная
+	void virtual Print() = 0;
 
 	Builder()
 	{
@@ -32,14 +34,12 @@ public:
 		}
 		File.close();
 	}
+
 protected:
 	vector <string> data;
-	vector <string> Mybasket;
+	vector <string> basket_;
 	int id = 0;
-	static int id_all;
 };
-
-int Builder::id_all = 0;
 
 class Object : public Builder	// Магазин маленький, сделаем допущение того, что товаров больше 9 одного типа, он не может хранить.
 {
@@ -59,21 +59,25 @@ public:
 		}
 	}
 
-	void basket(int id_) override
+	void basket(int id_)
 	{
-		fstream File(FILE_NAME);
-		id_--; string temp;
+		fstream File(FILE_NAME); fstream File_Basket(FILE_BASKET_NAME,ios_base::app);
+		id_--; string temp; string buff;
 		temp = (data[id_].c_str()[data[id_].size() - 1]);
+		buff = data[id_];
 		int count = stoi(temp);
 		if (count == 1) {
+			buff.replace(buff.size() - 1, buff.size(), "1");
+			File_Basket << buff << endl;
 			data.erase(data.begin() + id_);
-			this->data.erase(data.begin() + id_);
 		}
 		else {
+			buff.replace(buff.size() - 1, buff.size(), "1");
+			File_Basket << buff << endl;
 			count--; string temp2 = to_string(count);
 			this->data[id_].replace(data[id_].size() - 1, data[id_].size(), temp2);
 		}
-		File.close();
+		File.close(); File_Basket.close();
 		ofstream File_New(FILE_NAME, ios_base::trunc);
 		if (!File_New.is_open()) throw exception("File read error");
 		for (int i = 0; i < data.size(); i++) {
@@ -82,13 +86,31 @@ public:
 		}
 		File_New.close();
 	}
-	void PrintDataAll()
+	void Print() override
 	{
 		for (int i = 0; i < data.size(); i++)
 			cout << "id: " << i + 1 << "\t" << data[i] << endl;
 	}
+	void PrintBasket()
+	{
+		cout << "///////////////////////////Your Basket////////////////////////////" << endl;
+		ifstream File_Basket(FILE_BASKET_NAME);
+		if (!File_Basket.is_open()) throw exception("File read error");
+		int i = 0; string temp;
+		while (!File_Basket.eof()) {
+			getline(File_Basket, temp);
+			basket_.push_back(temp);
+			cout << basket_[i]; i++;
+		}
+		cout << endl;
+		cout << "//////////////////////////////////////////////////////////////////" << endl;
+		
+	}
+
 protected:
 };
+
+
 
 class Shoes : public Object
 {
@@ -109,32 +131,20 @@ public:
 		}
 	}
 
-	void basket(int id_) override
-	{
-		fstream File(FILE_NAME);
-		id_--; string temp;
-		temp = (Shoes_Data[id_].c_str()[Shoes_Data[id_].size() - 1]);
-		this->count = stoi(temp); 
-		if (count == 1){
-			data.erase(data.begin() + id_);
-			this->Shoes_Data.erase(Shoes_Data.begin() + id_);
-		}
-		else{
-			this->count--; string temp2 = to_string(count);
-			this->Shoes_Data[id_].replace(Shoes_Data[id_].size() - 1, Shoes_Data[id_].size(), temp2);
-		}
-		File.close();
-	}
-
 	void item() override
 	{
 
 	}
 
-	void PrintShoes()
+	void Print() override
 	{
-		for (int i = 0; i < Shoes_Data.size(); i++)
-			cout << "id: "<< i + 1 <<"\t" << Shoes_Data[i] << endl;
+		int it = 0;
+		for (int i = 0; i < data.size(); i++) {
+			if (data[i].find("Shoes")) {
+				cout << "id: " << i + 1 << "\t" << Shoes_Data[it] << endl; it++;
+				if (it == Shoes_Data.size()) break;
+			}
+		}
 	}
 
 protected:

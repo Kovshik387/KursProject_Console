@@ -5,16 +5,25 @@ void SetData();
 
 int main()
 {
+	bool flag = false;
     setlocale(LC_ALL, "ru");
 	while (true) {
-		cout << "0 - exit   " << endl;
-		cout << "1 - product" << endl;
-		cout << "2 - shoes  " << endl;
-		cout << "3 - reset  " << endl;
-		int mode; cin >> mode;
+		
+		cout << "0 - exit          " << endl; 
+		cout << "1 - product       " << endl;
+		cout << "2 - shoes         " << endl;
+		cout << "3 - reset         " << endl;
+		cout << "4 - print	       " << endl;
+		cout << "5 - basket        " << endl;
+		cout << "6 - Login as admin" << endl;
+		if (flag) {
+			cout << "7 - PRINT_ALL" << endl;
+			cout << "8 - ADD_NEW" << endl;
+		}
+		int mode; cin >> mode; Object object;
 		if (mode == 0) break;
 		if (mode == 1) {
-			Object object; object.item(); object.PrintDataAll();
+		    object.item(); object.Print();
 			cout << "b - buy\nr - return\n";
 			char mode_i; cin >> mode_i;
 			if (mode_i == 'b') {
@@ -24,9 +33,14 @@ int main()
 			if (mode_i == 'r') continue;
 			//else throw exception("Error Data");
 		}
-		if (mode == 2) { Shoes shoes; shoes.PrintShoes(); int ask; cin >> ask; shoes.basket(ask); }
+		if (mode == 2) { Shoes shoes; shoes.Print(); int ask; cin >> ask; shoes.basket(ask); }
 		if (mode == 3) SetData();
-		if (mode == 4) { Object object; object.PrintDataAll();}
+		if (mode == 4) { object.Print();}
+		if (mode == 5) { object.PrintBasket(); }
+		if (mode == 6) {
+			string pass; cin >> pass;
+			if (pass == Password) flag = true;
+		}
 		system("pause");
 		cout << "////////////////////////////////////////////////////////////////////////////////" << endl;
 	}

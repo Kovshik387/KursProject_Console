@@ -31,5 +31,8 @@
     <Text Include="DefualtData.txt">
       <Filter>Файлы ресурсов</Filter>
     </Text>
+    <Text Include="Basket.txt">
+      <Filter>Файлы ресурсов</Filter>
+    </Text>
   </ItemGroup>
 </Project>
