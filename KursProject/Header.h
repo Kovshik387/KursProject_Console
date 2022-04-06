@@ -14,6 +14,7 @@
 #define SEARCH_EXP_NEW R"(\w{2,6}\s\w{2,10}\s\w{3,5}\s\w{3,15}\s\w{3,15}\s\d{1,2}\s\d{2,6}\s\w{3,7}\s\d{1})" //ќбщее регул€рное выражение
 #define SEARCH_SHOES R"(Shoes)" // –егул€рное выражение дл€ группы Shoes
 
+void Image();
 
 using namespace std; //а если бы его не было, много ли людей рыдало?
 //
@@ -56,6 +57,13 @@ class User	//обычный уровень быти€
 {
 public:
 
+	void Purchase()
+	{
+		thread thr(Image);
+		fstream File(FILE_BASKET_NAME,ios::out);
+		thr.detach();
+	}
+
 private:
 };
 
@@ -83,8 +91,8 @@ protected:
 	int id = 0; // общее количество 
 };
 
-class Object : public Builder	// ћагазин маленький, сделаем допущение того, что товаров больше 9 одного типа, он не может хранить.
-{
+class Object : public Builder	// ћагазин маленький, сделаем допущение того, 
+{							    // что товаров больше 9 одного типа, он не может хранить.
 public:
 
 	void item() override {	// функци€ отсеивани€ "неправильных" товаров
@@ -153,8 +161,6 @@ protected:
 	vector <string> basket_;
 };
 
-
-
 class Shoes : public Object	//класс абстрактного пон€ти€ ботинок
 {
 public:
@@ -206,3 +212,19 @@ enum class MyEnumClass
 	Color = 7,
 	Count = 8
 };	 // нужно впихнуть
+
+
+void Image()
+{
+	while (true) {
+		int i = 2000;
+		cout << "\t\t_______" << endl;
+		cout << "\t\t# you #" << endl;
+		cout << "\t\t#items#" << endl;
+		cout << "\t\t#######" << endl;
+		this_thread::sleep_for(chrono::milliseconds(i));
+		i -= 100;
+		if (i == 0) break;
+	}
+	
+}

@@ -3,7 +3,7 @@ using namespace std;
 
 //	точки throw,
 //	меню
-//	оставляй айди
+//	
 
 void SetData();
 
