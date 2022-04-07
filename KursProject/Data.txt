@@ -1,7 +1,7 @@
 Shoes Sneakers Man Adidas Ozweego 43 9900 black 1
-Shoes Sneakers Woman Adidas Ozelia 39 15000 white 4
-Shoes Sneakers Man Nike AirMonarch 45 6800 white 2
-Shoes Boots Woman DrMartents Reek 38 3200 black 1
+Shoes Sneakers Woman Adidas Ozelia 39 15000 white 3
+Shoes Sneakers Man Nike AirMonarch 45 6800 white 1
+Shoes Sneakers Man Nike ExtroZamay 2 100000 pink 1
 Shoes Boots Man CAT MKregul 44 8999 orange 3
 Shoes Sneakers Man Balenciaga TripleS 44 40000 white 1
 Pants Jeans Man Levis straight 40 10500 white 2
@@ -12,3 +12,4 @@ Pants Breeches Woman Oodji low 38 4999 white 7
 Cloth Tshirt Man Levis aime 38 4500 white 2
 Cloth Tshirt Woman Uniqlo EVA01 45 999 white 3
 Cloth Hoodie Man HandM basic 40 1999 grey 2
+Shoes Boots Man Nike blazer 3 99999 white 3

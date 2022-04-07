@@ -1,7 +1,8 @@
 Shoes Sneakers Man Adidas Ozweego 43 9900 black 2
 Shoes Sneakers Woman Adidas Ozelia 39 15000 white 5
 Shoes Sneakers Man Nike AirMonarch 45 6800 white 3
-Shoes Sneakers Man CHnCH Kunkka 45 9999 blue 1
+Shoes Sneakers Man CHnCH Kunkka 45 99999 blue 1
+Shoes Sneakers Man Nike ExtroZamay 2 100000 pink 1
 Shoes Boots Woman DrMartents Reek 38 3200 black 1
 Shoes Boots Man CAT MKregul 44 8999 orange 3
 Shoes Sneakers Man Balenciaga TripleS 44 40000 white 1

@@ -6,7 +6,6 @@
 #include <chrono>
 #include <regex>
 #include <algorithm>
-#include <list>
 #include <ctime>
 
 #define FILE_BASKET_NAME "Basket.txt"		//
@@ -17,7 +16,7 @@
 
 void Travel(int day);
 
-using namespace std; //а если бы его не было, много ли людей рыдало?
+using namespace std;
 //
 //	Требуемые классы
 //
