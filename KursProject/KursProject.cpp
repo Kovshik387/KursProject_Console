@@ -9,21 +9,23 @@ void SetData();
 
 int main()
 {
-	bool flag = false; int kostil = 0; /* :))))) */ Admin admin;
+	srand(time(0)); //псевдо-рандомные числа
+	bool flag = false; int kostil = 0; /* :))))) */ Admin admin; User user;
     setlocale(LC_ALL, "ru");	//подключение
 	while (true) {
 		cout << "#0 - exit          " << endl; 
 		cout << "#1 - product       " << endl;
 		cout << "#2 - shoes         " << endl;
 		cout << "#3 - reset         " << endl;
-		cout << "#4 - print	        " << endl;
-		cout << "#5 - basket        " << endl;
-		if (!flag) cout << "#6 - Login as admin" << endl;	// Admin привелегии
+		cout << "#4 - basket        " << endl;
+		if (!flag) {
+			cout << "#6 - Login as admin" << endl;// Admin привелегии
+			cout << "38 - Purchase      " << endl;// Покупка товара
+		}
 		if (flag) { 
 			cout << "11 - PRINT_ALL" << endl;
 			cout << "12 - ADD_NEW" << endl;
 		}
-		cout << "99 - purchase     " << endl;
 		int mode; cin >> mode; Object object;
 		if (mode == 0) break;
 		if (mode == 1) {
@@ -36,10 +38,16 @@ int main()
 			}
 			//else throw exception("Error Data");
 		}
-		if (mode == 2) { Shoes shoes; shoes.Print(); int ask; cin >> ask; shoes.basket(ask); }
+		if (mode == 2) { Shoes shoes; shoes.Print(); 
+			cout << "b - buy\nr - return\n";
+			char mode_i; cin >> mode_i;
+			if (mode_i == 'b') {
+				int ask; cin >> ask;
+				shoes.basket(ask);
+			}
+		}
 		if (mode == 3) SetData();
-		if (mode == 4) { object.Print();}
-		if (mode == 5) { object.PrintBasket(); }
+		if (mode == 4) { object.PrintBasket(); }
 		if (!flag) {
 			if (mode == 6) {
 				string pass; cin >> pass;
@@ -48,6 +56,25 @@ int main()
 		}
 		if (mode == 11 && flag) {
 			admin.Print_Admin_Data();
+		}
+		if (mode == 38)
+		{
+			int temp_day = 1 + rand() % 15;
+			user.SetDay(temp_day);
+			cout << "//////////////////////////////////////////////" << endl;
+			cout << "///////////Assembly///////////////////////////" << endl;
+			cout << "//////////////////////////////////////////////" << endl;
+			this_thread::sleep_for(chrono::seconds(2));
+			cout << "//////////////////////////////////////////////" << endl;
+			cout << "///////////Estimated delivery time " << temp_day << "//////////" << endl;
+			user.Purchase();
+			this_thread::sleep_for(chrono::seconds(1));
+		}
+		if (mode == 39)
+		{
+			cout << "////////////" << endl;
+			cout << "Days off: " <<user.GetDay()<<"/" << endl;
+			cout << "////////////" << endl;
 		}
 		if (mode == 12 && flag) {
 			fstream File(FILE_NAME, ios_base::app);
@@ -66,8 +93,7 @@ int main()
 			File << new_str << endl;	// Запись собранной строки пользователя в "корзину"
 			File.close();			    // Закрытие отработавшего файла
 		}
-		if (mode == 99 && !flag) { User user; user.Purchase(); }
-		cout << "////////////////////////////////////////////////////////////////////////////////" << endl;
+		cout << "//////////////////////////////////////////////" << endl;
 	}
 
     return 0;
@@ -92,3 +118,5 @@ void SetData()	// Функция возвращение данных в исхо
 
 	File_Data.close();
 }
+
+

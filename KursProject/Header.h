@@ -7,6 +7,7 @@
 #include <regex>
 #include <algorithm>
 #include <list>
+#include <ctime>
 
 #define FILE_BASKET_NAME "Basket.txt"		//
 #define FILE_NAME "Data.txt"				// »мена ‘айлов
@@ -14,7 +15,7 @@
 #define SEARCH_EXP_NEW R"(\w{2,6}\s\w{2,10}\s\w{3,5}\s\w{3,15}\s\w{3,15}\s\d{1,2}\s\d{2,6}\s\w{3,7}\s\d{1})" //ќбщее регул€рное выражение
 #define SEARCH_SHOES R"(Shoes)" // –егул€рное выражение дл€ группы Shoes
 
-void Image();
+void Travel(int day);
 
 using namespace std; //а если бы его не было, много ли людей рыдало?
 //
@@ -59,13 +60,27 @@ public:
 
 	void Purchase()
 	{
-		thread thr(Image);
+		int it = day;
 		fstream File(FILE_BASKET_NAME,ios::out);
+		thread thr(Travel,it);
 		thr.detach();
 	}
 
+	void SetDay(int day)
+	{
+		this->day = day;
+	}
+
+	int GetDay()
+	{
+		return this->day;
+	}
+
 private:
+	static int day;
 };
+
+int User::day = 0;
 
 class Builder	// ќсновной класс, труд€га-работ€га на нЄм все держитс€...
 {
@@ -154,7 +169,6 @@ public:
 			cout << basket_[i] << endl; i++;
 		}
 		cout << "//////////////////////////////////////////////////////////////////" << endl;
-		
 	}
 
 protected:
@@ -172,10 +186,15 @@ public:
 		for (int i = 0; i < id; i++) 
 		{
 			if (regex_search(data[i], find_world, regular)){
-				string temp;
-				temp = data[i];
-				this->Shoes_Data.push_back(temp);
+				//string temp;
+				//temp = data[i];
+				//this->Shoes_Data.push_back(temp);
+				count++;
 			}
+			//else
+			//{
+			//	Shoes_Data[i] = "";
+			//}
 		}
 	}
 
@@ -185,12 +204,15 @@ public:
 	}
 
 	void Print() override // ¬ывод товаров, принадлежащие группе Shoes
-	{
+	{	
+		
+		smatch find_world;
+		regex regular(SEARCH_SHOES);	// регул€рное выражение
 		int it = 0;
 		for (int i = 0; i < data.size(); i++) {
-			if (data[i].find("Shoes")) {
-				cout << "id: " << i + 1 << "\t" << Shoes_Data[it] << endl; it++;
-				if (it == Shoes_Data.size()) break;
+			if (regex_search(data[i], find_world, regular)) {
+				cout << "id: " << i + 1 << "\t" << data[i] << endl; it++;
+				if (it == count) break;
 			}
 		}
 	}
@@ -213,18 +235,31 @@ enum class MyEnumClass
 	Count = 8
 };	 // нужно впихнуть
 
+//void Image()
+//{
+//	int i = 500;
+//	while (true) {
+//		cout << "\t\t\t\t\t\t\t\t\t\t ()  ()" << endl;
+//		cout << "\t\t\t\t\t\t\t\t\t\t   \\/  " << endl;
+//		cout << "\t\t\t\t\t\t\t\t\t\t_______" << endl;
+//		cout << "\t\t\t\t\t\t\t\t\t\t# you #" << endl;
+//		cout << "\t\t\t\t\t\t\t\t\t\t#items#" << endl;
+//		cout << "\t\t\t\t\t\t\t\t\t\t#######" << endl << endl;
+//		i-= 100;
+//		this_thread::sleep_for(chrono::milliseconds(i));
+//		if (i == 0) break;
+//	}
+//	cout << "\t\t\t\t\t\t\t\t\t________________________" << endl;
+//	cout << "Succes" << endl;
+//}
 
-void Image()
+
+void Travel(int day)
 {
-	while (true) {
-		int i = 2000;
-		cout << "\t\t_______" << endl;
-		cout << "\t\t# you #" << endl;
-		cout << "\t\t#items#" << endl;
-		cout << "\t\t#######" << endl;
-		this_thread::sleep_for(chrono::milliseconds(i));
-		i -= 100;
-		if (i == 0) break;
+	User u;
+	while (day > 0) {
+		this_thread::sleep_for(chrono::seconds(2));
+		day--; u.SetDay(day);
 	}
-	
+	cout << "Your item has been delivered successfully" << endl;
 }
