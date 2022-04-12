@@ -12,7 +12,10 @@
 #define FILE_NAME "Data.txt"				// »мена ‘айлов
 #define FILE_MAIN_NAME "DefualtData.txt"	//
 #define SEARCH_EXP_NEW R"(\w{2,6}\s\w{2,10}\s\w{3,5}\s\w{3,15}\s\w{3,15}\s\d{1,2}\s\d{2,6}\s\w{3,7}\s\d{1})" //ќбщее регул€рное выражение
-#define SEARCH_SHOES R"(Shoes)" // –егул€рное выражение дл€ группы Shoes
+#define SEARCH_SHOES R"((Shoes)\s\w{2,10}\s\w{3,5}\s\w{3,15}\s\w{3,15}\s\d{1,2}\s\d{2,6}\s\w{3,7}\s\d{1})" // –егул€рное выражение дл€ группы Shoes
+#define SEARCH_PANTS R"((Pants)\s\w{2,10}\s\w{3,5}\s\w{3,15}\s\w{3,15}\s\d{1,2}\s\d{2,6}\s\w{3,7}\s\d{1})" // –егул€рное выражение дл€ группы Pants
+#define SEARCH_CLOTH R"((Cloth)\s\w{2,10}\s\w{3,5}\s\w{3,15}\s\w{3,15}\s\d{1,2}\s\d{2,6}\s\w{3,7}\s\d{1})" // –егул€рное выражение дл€ группы Cloth
+
 
 void Travel(int day);
 
@@ -114,6 +117,7 @@ public:
 		smatch find_word;
 		vector<string>::iterator it = data.begin();// ”даление мусора
 		int i = 0; // временна€ переменна€, но ќЌј Ќ≈ќЅ’ќƒ»ћј
+		count = id;
 		while (i < id) {
 			if (!regex_match(data[i], find_word, regular)) {// проверка
 				data.erase(data.begin() + i);
@@ -123,7 +127,7 @@ public:
 		}
 	}
 
-	void basket(int id_) // нужно привести в пор€док, ну Ќикита, зачем ты так блеванул в код
+	void basket(int id_) // нужно привести в пор€док
 	{					 // 
 		fstream File(FILE_NAME); fstream File_Basket(FILE_BASKET_NAME,ios_base::app); // открытие файлов
 		id_--; // аргумент передаваем в метод класса Object
@@ -170,8 +174,14 @@ public:
 		cout << "//////////////////////////////////////////////////////////////////" << endl;
 	}
 
+	int GetCount()
+	{
+		return count;
+	}
+
 protected:
 	vector <string> basket_;
+	int count;
 };
 
 class Shoes : public Object	//класс абстрактного пон€ти€ ботинок
@@ -182,18 +192,12 @@ public:
 	{
 		smatch find_world;
 		regex regular(SEARCH_SHOES);	// регул€рное выражение
+		count = 0;
 		for (int i = 0; i < id; i++) 
 		{
 			if (regex_search(data[i], find_world, regular)){
-				//string temp;
-				//temp = data[i];
-				//this->Shoes_Data.push_back(temp);
 				count++;
 			}
-			//else
-			//{
-			//	Shoes_Data[i] = "";
-			//}
 		}
 	}
 
@@ -221,6 +225,85 @@ protected:
 	int count = 0;			    //зачем он нужен?
 };
 
+class Pants : public Object	//класс абстрактного пон€ти€ верхней одежды
+{
+public:
+
+	Pants() // Ќахождение товаров, принадлежащие группе вернхней одежды
+	{
+		smatch find_world;
+		regex regular(SEARCH_PANTS);	// регул€рное выражение
+		for (int i = 0; i < id; i++)
+		{
+			if (regex_search(data[i], find_world, regular)) {
+				count++;
+			}
+		}
+	}
+
+	void item() override	// ???
+	{
+
+	}
+
+	void Print() override // ¬ывод товаров, принадлежащие группе Pants
+	{
+		smatch find_world;
+		regex regular(SEARCH_PANTS);	// регул€рное выражение
+		int it = 0;
+		for (int i = 0; i < data.size(); i++) {
+			if (regex_search(data[i], find_world, regular)) {
+				cout << "id: " << i + 1 << "\t" << data[i] << endl; it++;
+				if (it == count) break;
+			}
+		}
+	}
+
+protected:
+	vector<string> Cloth_Data;	//вектор строчно типа
+	int count = 0;			    //зачем он нужен?
+};
+
+class Cloth : public Object	//класс абстрактного пон€ти€ ботинок
+{
+public:
+
+	Cloth() // Ќахождение товаров, принадлежащие группе Shoes
+	{
+		smatch find_world;
+		regex regular(SEARCH_CLOTH);	// регул€рное выражение
+		for (int i = 0; i < id; i++)
+		{
+			if (regex_search(data[i], find_world, regular)) {
+				count++;
+			}
+		}
+	}
+
+	void item() override	// ???
+	{
+
+	}
+
+	void Print() override // ¬ывод товаров, принадлежащие группе Shoes
+	{
+
+		smatch find_world;
+		regex regular(SEARCH_CLOTH);	// регул€рное выражение
+		int it = 0;
+		for (int i = 0; i < data.size(); i++) {
+			if (regex_search(data[i], find_world, regular)) {
+				cout << "id: " << i + 1 << "\t" << data[i] << endl; it++;
+				if (it == count) break;
+			}
+		}
+	}
+
+protected:
+	vector<string> CLOTH_Data;	//вектор строчно типа
+	int count = 0;			    //зачем он нужен?
+};
+
 enum class MyEnumClass
 {
 	Category = 0,
@@ -233,25 +316,6 @@ enum class MyEnumClass
 	Color = 7,
 	Count = 8
 };	 // нужно впихнуть
-
-//void Image()
-//{
-//	int i = 500;
-//	while (true) {
-//		cout << "\t\t\t\t\t\t\t\t\t\t ()  ()" << endl;
-//		cout << "\t\t\t\t\t\t\t\t\t\t   \\/  " << endl;
-//		cout << "\t\t\t\t\t\t\t\t\t\t_______" << endl;
-//		cout << "\t\t\t\t\t\t\t\t\t\t# you #" << endl;
-//		cout << "\t\t\t\t\t\t\t\t\t\t#items#" << endl;
-//		cout << "\t\t\t\t\t\t\t\t\t\t#######" << endl << endl;
-//		i-= 100;
-//		this_thread::sleep_for(chrono::milliseconds(i));
-//		if (i == 0) break;
-//	}
-//	cout << "\t\t\t\t\t\t\t\t\t________________________" << endl;
-//	cout << "Succes" << endl;
-//}
-
 
 void Travel(int day)
 {
